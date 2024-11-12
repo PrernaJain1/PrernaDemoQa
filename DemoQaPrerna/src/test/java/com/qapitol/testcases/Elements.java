@@ -5,24 +5,31 @@ import com.qapitol.pages.HomePageClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Set;
 
-import static com.qapitol.base.BaseClass.driver;
-import static com.qapitol.base.BaseClass.properties;
 import static java.lang.Thread.sleep;
 import static org.testng.Assert.*;
 
 public class Elements extends BaseClass {
+    HomePageClass home;
 
-
-    public static void textBox() throws InterruptedException {
-        HomePageClass home = new HomePageClass();
+    @BeforeMethod
+    public void setUp() throws IOException {
+        initializer();
+        home = new HomePageClass();
         home.clickOnElements();
+    }
 
+
+
+    public static void textBox() throws InterruptedException, IOException {
         //Click on text box
         driver.findElement(By.className("text")).click();
 
@@ -58,8 +65,6 @@ public class Elements extends BaseClass {
     }
 
     public static void checkBox() {
-        HomePageClass home = new HomePageClass();
-        home.clickOnElements();
 
         //Click on checkbox
         driver.findElement(By.xpath("//span[text()='Check Box']")).click();
@@ -83,8 +88,6 @@ public class Elements extends BaseClass {
 
 
     public static void radioButton() throws InterruptedException {
-        HomePageClass home = new HomePageClass();
-        home.clickOnElements();
 
         //Click on radio button
         driver.findElement(By.xpath("//span[text()='Radio Button']")).click();
@@ -102,10 +105,8 @@ public class Elements extends BaseClass {
         assertFalse(driver.findElement(By.id("noRadio")).isEnabled());
     }
 
-    @Test
+
     public static void buttons() {
-    HomePageClass home = new HomePageClass();
-    home.clickOnElements();
 
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
@@ -131,13 +132,40 @@ public class Elements extends BaseClass {
      a.moveToElement(normalClick).click().build().perform();
     }
 
+    @Test
+    public static void links() throws InterruptedException {
+
+        //Click on links
+        driver.findElement(By.xpath("//span[text()='Links']")).click();
+
+       //Scroll till first link
+        WebElement element =driver.findElement(By.linkText("Home"));
+        JavascriptExecutor script = (JavascriptExecutor) driver;
+        script.executeScript("arguments[0].scrollIntoView(true)",element);
+
+        //click on first link
+        element.click();
+
+        Thread.sleep(5000);
+
+        String parentTab = driver.getWindowHandle();
+        Set<String> tabs = driver.getWindowHandles();
+
+        for(String tab: tabs){
+            if(!tab.equals(parentTab)){
+                driver.switchTo().window(tab);
+            }
+        }
+        //Verify if tab got switched
+        assertTrue(driver.findElement(By.xpath("//img[@src='/images/Toolsqa.jpg']")).isDisplayed());
+
+    }
+
     public static void webTables() {
 
     }
 
-    public static void links() {
 
-    }
 
     public static void brokenLinks() {
 
@@ -151,4 +179,8 @@ public class Elements extends BaseClass {
 
     }
 
+    @AfterMethod
+    public void setDown(){
+        closing();
+    }
 }
