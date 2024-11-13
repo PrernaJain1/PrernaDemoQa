@@ -9,28 +9,30 @@ public class HomePageClass extends BaseClass {
 
     public void clickOnElements(){
         WebElement element = driver.findElement(By.xpath("//h5[text()='Elements']"));
-        JavascriptExecutor script = (JavascriptExecutor) driver;
-        script.executeScript("arguments[0].scrollIntoView(true)",element);
+        scrollTillTheElement(element);
         element.click();
     }
     public void clickOnForm(){
         WebElement formClick =driver.findElement(By.xpath("//h5[text()='Forms']"));
-        JavascriptExecutor script =(JavascriptExecutor) driver;
-        script.executeScript("arguments[0].scrollIntoView(true)",formClick);
+        scrollTillTheElement(formClick);
         formClick.click();
     }
 
     public void clickOnAlertFrameWindows(){
         WebElement ele = driver.findElement(By.xpath("//h5[text()='Alerts, Frame & Windows']"));
-        JavascriptExecutor script = (JavascriptExecutor) driver;
-        script.executeScript("arguments[0].scrollIntoView(true)",ele);
+        scrollTillTheElement(ele);
         ele.click();
     }
 
     public void clickOnInteractions(){
         WebElement ele = driver.findElement(By.xpath("//h5[text()='Interactions']"));
-        JavascriptExecutor script = (JavascriptExecutor) driver;
-        script.executeScript("arguments[0].scrollIntoView(true)",ele);
+        scrollTillTheElement(ele);
+        ele.click();
+    }
+
+    public void clickOnWidgets(){
+        WebElement ele = driver.findElement(By.xpath("//h5[text()='Widgets']"));
+        scrollTillTheElement(ele);
         ele.click();
     }
 }
